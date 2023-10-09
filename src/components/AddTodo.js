@@ -1,47 +1,37 @@
-import React from 'react';
+import React, { useState } from "react";
 
-class AddTodo extends React.Component {
+const AddTodo = ({ addItem }) => {
+  const [content, setContent] = useState(null);
 
-    constructor(props) {
-      super(props);
-      this.state = {
-        content: '',
-      };
-      this.handleChange = this.handleChange.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
-      this.handleKeyPressed = this.handleKeyPressed.bind(this);
-    }
+  const handleKeyPressed = (e) => {
+    if (e.key === "Enter") handleOnSubmit();
+  };
 
-    handleChange(e) {
-      const content = e.target.value;
-      this.setState({
-        content
-      })
-    }
+  const handleOnChange = (e) => {
+    const value = e.target.value;
+    setContent(value);
+  };
+  const handleOnSubmit = () => {
+    if (!content) return alert("Please input something to create a todo.");
 
-    handleKeyPressed(e) {
-      if(e.key === 'Enter') this.handleSubmit();
-    }
+    addItem && addItem(content);
+    setContent(""); // reset
+  };
 
-    handleSubmit(e) {
-      this.props.addItem(this.state);
-      this.setState({
-        content: ''
-      })
-    }
- 
-    render() {
-      const { content } = this.state;
-      const { handleChange, handleSubmit, handleKeyPressed } = this;
-      return (
-        <div className="ui big fluid action input">
-          <input type="text" value={content} placeholder="Add new todo" onKeyPress={handleKeyPressed} onChange={handleChange}/>
-          <button className="ui icon black button" onClick={handleSubmit}>
-            <i className="plus icon"></i>
-          </button>
-        </div>
-      );
-    }
-}
+  return (
+    <div className="ui big fluid action input">
+      <input
+        type="text"
+        value={content}
+        placeholder="Add new todo"
+        onKeyUp={handleKeyPressed}
+        onChange={handleOnChange}
+      />
+      <button className="ui icon black button" onClick={handleOnSubmit}>
+        <i className="plus icon"></i>
+      </button>
+    </div>
+  );
+};
 
-export default AddTodo
+export default AddTodo;

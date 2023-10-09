@@ -1,10 +1,8 @@
-import React from 'react';
-import Wrapper from './containers/Wrapper'
+import React from "react";
+import Pomodoro from "./containers/Pomodoro";
 
 function App() {
-  return (
-    <Wrapper />
-  );
+  return <Pomodoro />;
 }
 
 export default App;

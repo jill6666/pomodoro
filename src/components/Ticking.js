@@ -1,31 +1,23 @@
-import React from 'react';
+import React from "react";
 
-class Ticking extends React.Component {
+const Ticking = ({ time = 25 }) => {
+  const convertTime = (timestamp) => {
+    const minutes = Math.floor(timestamp / 60);
+    let seconds = timestamp - minutes * 60;
 
-    constructor(props) {
-      super(props);
-      this.state = {
-      };
-      this.convertTime = this.convertTime.bind(this);
-    }
+    if (seconds < 10) seconds += "0";
 
-    convertTime(timestamp) {
-      let minutes = Math.floor(timestamp / 60);
-      let seconds = timestamp - minutes * 60;
-      if (seconds < 10) {
-        seconds = "0" + seconds;
-      }
-      timestamp = minutes + ":" + seconds;
-      return timestamp;
-    };
+    timestamp = minutes + ":" + seconds;
+    return timestamp;
+  };
 
-    render() {
-      const { time } = this.props;
-      const { convertTime } = this;
-      return (
-        <div className="ui huge header center aligned" style={{fontSize:'6rem'}}>{convertTime(time)}</div>
-      );
-    }
-}
+  const convertedTime = convertTime(time) || "-";
 
-export default Ticking
+  return (
+    <div className="ui huge header center aligned" style={{ fontSize: "6rem" }}>
+      {convertedTime}
+    </div>
+  );
+};
+
+export default Ticking;

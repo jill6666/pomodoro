@@ -44,7 +44,7 @@ code {
   height: 6px;
   width: 100%;
   border-radius: 50px;
-  background: url('./dot.svg') repeat-x;
+  background: url('/images/dot.svg') repeat-x;
 }
 
 .truck.icon {

@@ -1,53 +1,37 @@
-import React from 'react';
-import TodoListItem from './TodoListItem';
-import AddTodo from './AddTodo';
+import React, { useState } from "react";
+import TodoListItem from "./TodoListItem";
+import AddTodo from "./AddTodo";
 
-class TodoList extends React.Component {
+const demoTodoList = [
+  { id: 1, content: "Clean Dishes" },
+  { id: 2, content: "Buy Groceries" },
+];
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            todos: [
-                { id: 1, content: 'Clean Dishes' },
-                { id: 2, content: 'Buy Groceries' },
-            ],
-        };
-        this.deleteItem = this.deleteItem.bind(this);
-        this.addItem = this.addItem.bind(this);
-        this.chooseItem = this.chooseItem.bind(this);
-    }
+const TodoList = ({ updateTask = () => {} }) => {
+  const [todos, setTodos] = useState(demoTodoList);
 
-    deleteItem(id) {
-        const todos = this.state.todos.filter(todo => {
-            return todo.id !== id
-        });
-        this.setState({
-            todos
-        })
-    }
+  const onDelete = (id) => {
+    const targetTodo = todos.filter((todo) => todo.id !== id);
+    setTodos(targetTodo);
+  };
 
-    addItem(todo) {
-        todo.id = Math.random();
-        let todos = [...this.state.todos, todo];
-        this.setState({
-            todos
-        })
-    }
+  const onAddItem = (item) => {
+    const id = Math.random();
+    const newArr = [...todos, { content: item, id }];
 
-    chooseItem(todo) {
-        this.props.updateTask(todo);
-    }
+    setTodos(newArr);
+  };
 
-    render() {
-        const { todos } = this.state;
-        const { deleteItem, addItem, chooseItem } = this;
-        return (
-            <div style={{padding:'2rem 1rem'}}>
-                <AddTodo addItem={addItem}/>
-                <TodoListItem todos={todos} deleteItem={deleteItem} chooseItem={chooseItem}/>
-            </div>
-        );
-    }
-}
+  const onClick = (todo) => {
+    updateTask && updateTask(todo);
+  };
 
-export default TodoList
+  return (
+    <div style={{ padding: "2rem 1rem" }}>
+      <AddTodo addItem={onAddItem} />
+      <TodoListItem todos={todos} onDelete={onDelete} onClick={onClick} />
+    </div>
+  );
+};
+
+export default TodoList;
