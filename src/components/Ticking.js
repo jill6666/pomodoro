@@ -5,7 +5,7 @@ const Ticking = ({ time = 25 }) => {
     const minutes = Math.floor(timestamp / 60);
     let seconds = timestamp - minutes * 60;
 
-    if (seconds < 10) seconds += "0";
+    if (seconds < 10) seconds = "0" + seconds;
 
     timestamp = minutes + ":" + seconds;
     return timestamp;

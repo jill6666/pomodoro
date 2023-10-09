@@ -1,46 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Ticking from "./Ticking";
 
 const initialState = {
   start: false,
-  time: 1500,
+  time: 5,
   percentage: 0,
 };
 
-let interval;
+let intervalId;
+let timeId;
 
 const Timer = ({ currentTask }) => {
   const [timerState, setTimerState] = useState(initialState);
   const { start, time, percentage } = timerState;
 
   const startIconClass = !start ? "play icon" : "pause icon";
-  const left = `${percentage}%`;
+  const left = `${percentage * 100}%`;
 
-  const play = () => {
-    if (start) return;
+  useEffect(() => {
+    reset();
+  }, [currentTask]);
 
-    setTimerState((prev) => ({ ...prev, start: true }));
+  useEffect(() => {
+    if (time <= 0) timeId = setTimeout(() => stop(), 500);
+    return () => clearTimeout(timeId);
+  }, [time]);
 
-    interval = setInterval(() => {
-      if (time > 0) {
+  useEffect(() => {
+    if (start)
+      intervalId = setInterval(() => {
         setTimerState((prev) => ({
           ...prev,
           time: prev.time - 1,
-          percentage: prev.percentage + 0.06,
+          percentage: prev.percentage + 1 / (initialState.time + 1),
         }));
-      } else {
-        stop();
-        clearInterval(interval);
-      }
-    }, 1000);
-  };
+      }, 1000);
 
+    return () => clearInterval(intervalId);
+  }, [start]);
+
+  const play = () => setTimerState((prev) => ({ ...prev, start: true }));
+  const reset = () => setTimerState(initialState);
   const stop = () => {
     const audioEl = document.getElementById("audio");
     audioEl && audioEl.play();
 
-    setTimerState(initialState);
-    clearInterval(interval);
+    reset();
   };
 
   const actionButtons = [
