@@ -2,7 +2,7 @@
   "name": "pomodoro",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://snoopy4265.github.io/pomodoro/",
+  "homepage": "https://jill6666.github.io/pomodoro/",
   "dependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -32,6 +32,6 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^2.0.1"
+    "gh-pages": "^2.2.0"
   }
 }
