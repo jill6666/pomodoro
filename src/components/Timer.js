@@ -3,7 +3,7 @@ import Ticking from "./Ticking";
 
 const initialState = {
   start: false,
-  time: 5,
+  time: 1500,
   percentage: 0,
 };
 
